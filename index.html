@@ -44,6 +44,21 @@
   .cellx .k{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px;}
   .cellx .v{font-family:"Space Grotesk",sans-serif;font-weight:500;font-size:15px;line-height:1.3;}
 
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:32px;
+    border:1px solid var(--rule);border-radius:var(--r);background:var(--surface);overflow:hidden;}
+  .stat{padding:20px 20px;border-right:1px solid var(--rule);}
+  .stat:last-child{border-right:none;}
+  .stat .n{font-family:"Space Grotesk",sans-serif;font-size:30px;font-weight:700;color:var(--signal);
+    letter-spacing:-.02em;line-height:1;}
+  .stat .l{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--muted);margin:10px 0 6px;display:block;}
+  .stat .d{font-size:13.5px;color:#4A3540;}
+  .svc{display:grid;grid-template-columns:1fr 1fr;gap:0 32px;}
+  .svc div{border-top:1px solid var(--rule);padding:18px 0;}
+  .svc h4{font-family:"Space Grotesk",sans-serif;font-size:16px;font-weight:600;margin:0 0 6px;}
+  .svc .tag{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--signal);display:block;margin-bottom:6px;}
+  .svc p{margin:0;font-size:14.5px;color:#4A3540;}
   .ops{list-style:none;counter-reset:op;margin:0;padding:0;}
   .ops li{counter-increment:op;position:relative;padding:16px 0 16px 44px;border-top:1px solid var(--rule);
     max-width:74ch;color:#3B2530;}
@@ -108,6 +123,7 @@
     <nav>
       <a href="#work">Work</a>
       <a href="#how">How I work</a>
+      <a href="#services">Services</a>
       <a href="#stack">Stack</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
@@ -131,13 +147,13 @@
     </p>
     <a class="btn" href="#contact">See if I'm a fit for your team</a>
 
-    <div class="strip">
-      <div class="strip-row">
-        <div class="cellx"><span class="k">Currently</span><span class="v">ML Engineer, Datamellon</span></div>
-        <div class="cellx"><span class="k">Shipped</span><span class="v">9Stack AI builder, live</span></div>
-        <div class="cellx"><span class="k">Certified</span><span class="v">AWS ML Engineer · AI Practitioner</span></div>
-        <div class="cellx"><span class="k">Also</span><span class="v">Co-founder &amp; CTO, Ojiffy</span></div>
-      </div>
+    <div class="stats">
+      <div class="stat"><span class="n">4&times;</span><span class="l">Pipeline latency</span>
+        <span class="d">Cut an SOP-to-video generation pipeline from about 500s to about 120s. Fewer timeouts, cheaper runs.</span></div>
+      <div class="stat"><span class="n">6&times;</span><span class="l">Workflow speedup</span>
+        <span class="d">Built a scope-of-work drafter that took a 30 minute task to under 5. The team adopted it.</span></div>
+      <div class="stat"><span class="n">0 &rarr; MVP</span><span class="l">As sole AI owner</span>
+        <span class="d">Took a build-by-chat product's AI from a blank page to a working, public MVP.</span></div>
     </div>
   </div>
 
@@ -154,16 +170,19 @@
       <article class="card">
         <h3>9Stack: build a website or app by chatting with AI</h3>
         <p class="plain">
-          You describe what you want in plain language and it builds it. A working site or app, generated
-          from the conversation, saved so you can come back and keep going. Built for people who have a
-          business but not a developer.
+          You describe what you want in plain language and it builds it. A working site or app, generated from
+          the conversation, saved so you can come back and keep going. Built for people who have a business
+          but not a developer.
         </p>
         <p class="built">
-          I built it solo, front to back. Live and in public use: students across Africa used it to put their
-          first sites online during an AfCFTA-programme bootcamp I ran.
+          I owned the AI end to end as the sole AI engineer: picked the models, designed the prompting and
+          orchestration, and architected long-running generation as async background jobs with retries and
+          durable state, because a build that takes two minutes cannot run inside a web request. Live and in
+          public use. Students across Africa used it to put their first sites online during an AfCFTA
+          programme bootcamp I ran.
         </p>
-        <span class="stackline">Next.js &middot; Vercel &middot; LLM code generation &middot; persisted project state</span>
-        <div class="result"><span class="rk">Result</span><span class="rv">shipped and live, go and use it right now</span></div>
+        <span class="stackline">Python &middot; Inngest &middot; LLM orchestration &middot; async job pipeline &middot; Vercel</span>
+        <div class="result"><span class="rk">Result</span><span class="rv">zero to a public MVP, live now, go and use it</span></div>
         <div class="links"><a class="lk" href="https://9stackai.vercel.app/" target="_blank" rel="noopener">Open the live app</a></div>
       </article>
 
@@ -203,23 +222,39 @@
       </article>
 
       <article class="card">
-        <h3>Production AI systems for banking, aviation and agriculture</h3>
+        <h3>Turning written procedures into narrated instructional videos</h3>
         <p class="plain">
-          My day job. Client-facing systems that search and reason over company information, and agents that
-          take actions rather than just answering, built on AWS and delivered as infrastructure that another
-          engineer can pick up and maintain.
+          An agent pipeline that reads a written standard operating procedure and produces a narrated video
+          walkthrough of it. Nobody reads a 12 page procedure document. They will watch two minutes.
         </p>
         <p class="built">
-          The work I'm proudest of here is the unglamorous half: what happens when a model provider goes down,
-          how you know a change actually improved anything, and whether it still runs in six months.
+          The first version worked and took around 500 seconds per video, which meant timeouts and users
+          giving up. I profiled where the time actually went and rebuilt it: better tool selection, tighter
+          prompting, and parallelism where it earned its place. It runs in about 120 seconds now. Building
+          agent demos is easy. Making one cheap enough to leave running is the job.
         </p>
-        <span class="stackline">AWS Bedrock · Lambda · OpenSearch · DynamoDB · Terraform · FastAPI</span>
-        <div class="result"><span class="rk">Result</span><span class="rv">shipped across three industries for an AWS partner company</span></div>
-        <div class="links"><a class="lk" href="case-studies/production-ai-systems.html">Read the case study</a></div>
-        <p class="private">Client code isn't public. Architecture and decisions available on request.</p>
+        <span class="stackline">AWS Bedrock &middot; Claude &middot; Polly &middot; Nova Reel &middot; MediaConvert &middot; Strands Agents</span>
+        <div class="result"><span class="rk">Result</span><span class="rv">about 500s to about 120s per video, roughly 4x faster and cheaper per run</span></div>
+        <div class="links"><a class="lk" href="case-studies/production-ai-systems.html">How I work on client systems</a></div>
+        <p class="private">Client work, so the code isn't public. Architecture and decisions available on request.</p>
       </article>
 
 
+      <article class="card">
+        <h3>Ojiffy: hyperlocal quick commerce for Lagos</h3>
+        <p class="plain">
+          A multi-vendor marketplace built around same day delivery across Lagos, with payments through
+          Interswitch and last mile through Kwik. I'm co-founder and CTO, and I designed the system: the
+          architecture, a 28 table Postgres schema, the OpenAPI spec, and the CI/CD.
+        </p>
+        <p class="built">
+          This is where I learned delivery from the inside rather than as an ML problem. Vendor onboarding,
+          dispatch, ETAs, payments, last mile, and the fact that none of it matters until someone actually
+          buys something. When we couldn't hire a field sales agent, I did the vendor visits myself.
+        </p>
+        <span class="stackline">FastAPI &middot; PostgreSQL &middot; Interswitch &middot; Kwik &middot; AWS</span>
+        <div class="result"><span class="rk">Result</span><span class="rv">architecture, schema, API spec and pipeline designed and shipping</span></div>
+      </article>
     </div>
   </section>
 
@@ -236,6 +271,21 @@
       <li><strong>I write things down.</strong> Decisions go somewhere people can find them. I'm five hours ahead of New York, so nobody should be stuck waiting for me to wake up.</li>
       <li><strong>Tell me early if I'm wrong.</strong> I'd rather redo it on Tuesday than defend it until Friday.</li>
     </ol>
+  </section>
+
+  <section id="services">
+    <span class="eyebrow">What I build</span>
+    <h2>Where I'm most useful</h2>
+    <div class="svc">
+      <div><span class="tag">A / Production ML</span><h4>Systems that hold up after launch</h4>
+        <p>Feature pipelines, model serving, monitoring, drift. Latency budgets, cost per prediction, and the model still being right in three months. AWS native, Terraform.</p></div>
+      <div><span class="tag">B / Agents &amp; LLMs</span><h4>GenAI that behaves in production</h4>
+        <p>RAG, agent orchestration, tool use, structured outputs, guardrails, eval harnesses. I've cut an agent pipeline 4x on latency.</p></div>
+      <div><span class="tag">C / Fraud &amp; anomaly</span><h4>Detection for financial services</h4>
+        <p>Fraud detection, transaction monitoring, anomaly scoring. Work across Nigerian financial services, the domain where eventually correct isn't good enough.</p></div>
+      <div><span class="tag">D / Operations ML</span><h4>Logistics, delivery and ops</h4>
+        <p>ETA prediction, demand forecasting, routing, recommendations. Direct domain context from building Ojiffy, from both sides of the screen.</p></div>
+    </div>
   </section>
 
   <section id="stack">
@@ -274,6 +324,11 @@
       engineering job gets my working hours. I'd give you the same answer in an interview.
     </p>
     <p class="sec-note" style="max-width:72ch;">
+      I learned core ML before the LLM boom, regression, classification, deep networks, statistics, and I
+      still reach for a boosted tree first when latency, cost or explainability matter. GenAI is a tool in
+      the box, not the box.
+    </p>
+    <p class="sec-note" style="max-width:72ch;">
       I sing soprano. I got tired of practising against a recording with all four parts in it, so I built a
       model to pull my part out. Most of my projects start as something small that annoys me.
     </p>
@@ -290,6 +345,8 @@
     <div class="contact">
       <a href="https://linkedin.com/in/edeaibuedefe">LinkedIn</a>
       <a href="https://github.com/Aibuedefe-bot">GitHub</a>
+      <a href="https://hello.cv/edeaibuedefe" target="_blank" rel="noopener">CV</a>
+      <a href="https://medium.com/@edeaibuedefe3" target="_blank" rel="noopener">Writing</a>
     </div>
     <p class="fine">Lagos, Nigeria · GMT+1 · overlaps European and US-East working hours</p>
   </footer>
