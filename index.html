@@ -1,847 +1,365 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Ede Aibuedefe — ML Engineer, Lagos</title>
-<meta name="description" content="ML engineer who turns AI ideas into production systems real people use. Fintech, delivery, agents. Lagos, Nigeria." />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ede Aibuedefe | I build AI systems people actually use</title>
+<meta name="description" content="ML engineer turning AI ideas into tools real people use every day. Production RAG, agents and MCP systems on AWS.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --paper: #EFEAE0;
-    --paper-2: #E7E1D4;
-    --ink: #17191A;
-    --ink-2: #3A3833;
-    --mid: #6E6960;
-    --rule: #D4CFC3;
-    --accent: #2E4E36;           /* shipped / live green */
-    --metric: #B54321;           /* metric emphasis */
-    --tag-bg: #E1DAC8;
-    --highlight: #F5EDD9;
+  :root{
+    --paper:#FBEEF2; --surface:#FFFFFF; --ink:#2B1622; --muted:#7C6570;
+    --rule:#F0D3DD; --signal:#B3245C; --measure:#7A2B57; --r:5px;
   }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--paper);
-    color: var(--ink);
-    font-family: "IBM Plex Sans", system-ui, sans-serif;
-    font-weight: 400;
-    font-size: 17px;
-    line-height: 1.55;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    overflow-x: hidden;
-  }
-
-  .wrap {
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 0 32px;
-  }
-
-  /* ─── NAV ─── */
-
-  .nav {
-    padding: 28px 0 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-
-  .nav-brand {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 13px;
-    letter-spacing: 0.02em;
-    color: var(--ink);
-  }
-
-  .nav-brand .dot {
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    background: var(--accent);
-    border-radius: 50%;
-    margin-right: 10px;
-    transform: translateY(-2px);
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 22px;
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 12px;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-  }
-
-  .nav-links a {
-    color: var(--ink-2);
-    text-decoration: none;
-    transition: color 0.15s ease;
-  }
-
-  .nav-links a:hover { color: var(--metric); }
-
-  /* ─── HERO ─── */
-
-  .hero {
-    padding: 120px 0 100px;
-    max-width: 900px;
-  }
-
-  .hero h1 {
-    font-family: "Fraunces", Georgia, serif;
-    font-weight: 500;
-    font-variation-settings: "opsz" 144, "SOFT" 40;
-    font-size: clamp(38px, 6.2vw, 84px);
-    line-height: 1.02;
-    letter-spacing: -0.025em;
-    color: var(--ink);
-    margin-bottom: 40px;
-  }
-
-  .hero h1 em {
-    font-style: italic;
-    font-variation-settings: "opsz" 144, "SOFT" 100;
-    color: var(--metric);
-  }
-
-  .hero-sub {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-size: clamp(17px, 1.6vw, 20px);
-    line-height: 1.55;
-    color: var(--ink-2);
-    max-width: 620px;
-    margin-bottom: 44px;
-  }
-
-  .hero-cta {
-    display: flex;
-    gap: 24px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 22px;
-    background: var(--ink);
-    color: var(--paper);
-    font-family: "IBM Plex Sans", sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0.01em;
-    text-decoration: none;
-    border-radius: 2px;
-    transition: transform 0.15s ease, background 0.15s ease;
-  }
-
-  .btn-primary:hover { background: var(--accent); transform: translateY(-1px); }
-  .btn-primary .arrow { transition: transform 0.2s ease; }
-  .btn-primary:hover .arrow { transform: translateX(3px); }
-
-  .btn-secondary {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 13px;
-    letter-spacing: 0.03em;
-    color: var(--ink-2);
-    text-decoration: none;
-    padding: 14px 4px;
-    border-bottom: 1px solid var(--ink-2);
-    transition: color 0.15s, border-color 0.15s;
-  }
-
-  .btn-secondary:hover { color: var(--metric); border-color: var(--metric); }
-
-  /* ─── SECTION HEADS ─── */
-
-  .section-head {
-    display: flex;
-    align-items: baseline;
-    gap: 16px;
-    margin-bottom: 40px;
-    padding-top: 100px;
-    border-top: 1px solid var(--rule);
-    padding-top: 90px;
-  }
-
-  .section-num {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 12px;
-    color: var(--metric);
-    letter-spacing: 0.05em;
-  }
-
-  .section-head h2 {
-    font-family: "Fraunces", Georgia, serif;
-    font-weight: 500;
-    font-variation-settings: "opsz" 144, "SOFT" 40;
-    font-size: clamp(28px, 3.4vw, 40px);
-    letter-spacing: -0.015em;
-    color: var(--ink);
-  }
-
-  .section-head h2 em {
-    font-style: italic;
-    color: var(--metric);
-    font-variation-settings: "opsz" 144, "SOFT" 100;
-  }
-
-  /* ─── PROOF STRIP (three receipts) ─── */
-
-  .proof-strip {
-    padding-top: 20px;
-  }
-
-  .proof-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0;
-    border-top: 1px solid var(--ink);
-    border-bottom: 1px solid var(--ink);
-  }
-
-  .proof-cell {
-    padding: 36px 28px;
-    border-right: 1px solid var(--rule);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 240px;
-  }
-
-  .proof-cell:last-child { border-right: none; }
-
-  .proof-metric {
-    font-family: "Fraunces", Georgia, serif;
-    font-weight: 500;
-    font-variation-settings: "opsz" 144, "SOFT" 20;
-    font-size: 72px;
-    line-height: 0.9;
-    color: var(--metric);
-    letter-spacing: -0.03em;
-  }
-
-  .proof-metric-sm {
-    font-family: "Fraunces", Georgia, serif;
-    font-weight: 500;
-    font-variation-settings: "opsz" 144, "SOFT" 20;
-    font-size: 42px;
-    line-height: 1;
-    color: var(--accent);
-    letter-spacing: -0.02em;
-  }
-
-  .proof-body {
-    margin-top: 22px;
-  }
-
-  .proof-label {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--mid);
-    margin-bottom: 8px;
-  }
-
-  .proof-text {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-size: 15px;
-    line-height: 1.5;
-    color: var(--ink);
-  }
-
-  /* ─── SELECTED WORK ─── */
-
-  .work-item {
-    padding: 44px 0;
-    border-bottom: 1px solid var(--rule);
-    display: grid;
-    grid-template-columns: 80px 1fr 260px;
-    gap: 32px;
-    align-items: start;
-  }
-
-  .work-item:last-child { border-bottom: none; }
-
-  .work-num {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 13px;
-    color: var(--metric);
-    letter-spacing: 0.05em;
-    padding-top: 6px;
-  }
-
-  .work-content h3 {
-    font-family: "Fraunces", Georgia, serif;
-    font-weight: 500;
-    font-variation-settings: "opsz" 96, "SOFT" 30;
-    font-size: 28px;
-    line-height: 1.15;
-    letter-spacing: -0.015em;
-    margin-bottom: 6px;
-    color: var(--ink);
-  }
-
-  .work-content .subhead {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-size: 15px;
-    color: var(--metric);
-    font-weight: 500;
-    margin-bottom: 18px;
-    letter-spacing: 0.005em;
-  }
-
-  .work-content p {
-    font-size: 16px;
-    line-height: 1.6;
-    color: var(--ink-2);
-    margin-bottom: 12px;
-    max-width: 620px;
-  }
-
-  .work-stack {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding-top: 8px;
-  }
-
-  .work-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 11px;
-    letter-spacing: 0.06em;
-    color: var(--accent);
-    text-transform: uppercase;
-  }
-
-  .work-status .pulse {
-    width: 6px;
-    height: 6px;
-    background: var(--accent);
-    border-radius: 50%;
-    box-shadow: 0 0 0 0 rgba(46, 78, 54, 0.4);
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(46, 78, 54, 0.4); }
-    70% { box-shadow: 0 0 0 8px rgba(46, 78, 54, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(46, 78, 54, 0); }
-  }
-
-  .work-stack-label {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 10px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--mid);
-    margin-top: 6px;
-  }
-
-  .stack-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 4px;
-  }
-
-  .stack-tag {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 11px;
-    padding: 4px 9px;
-    background: var(--tag-bg);
-    color: var(--ink);
-    border-radius: 2px;
-    letter-spacing: 0.01em;
-  }
-
-  /* ─── SERVICES ─── */
-
-  .services {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0;
-    border-top: 1px solid var(--rule);
-  }
-
-  .service {
-    padding: 40px 32px 40px 0;
-    border-bottom: 1px solid var(--rule);
-    border-right: 1px solid var(--rule);
-  }
-
-  .service:nth-child(even) {
-    border-right: none;
-    padding-left: 32px;
-    padding-right: 0;
-  }
-
-  .service:nth-last-child(-n+2) { border-bottom: none; }
-
-  .service-num {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 11px;
-    color: var(--metric);
-    letter-spacing: 0.06em;
-    margin-bottom: 14px;
-  }
-
-  .service h3 {
-    font-family: "Fraunces", Georgia, serif;
-    font-weight: 500;
-    font-variation-settings: "opsz" 72, "SOFT" 20;
-    font-size: 24px;
-    line-height: 1.15;
-    letter-spacing: -0.01em;
-    margin-bottom: 12px;
-    color: var(--ink);
-  }
-
-  .service p {
-    font-size: 15px;
-    line-height: 1.55;
-    color: var(--ink-2);
-  }
-
-  /* ─── ABOUT ─── */
-
-  .about-block {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    padding-top: 20px;
-  }
-
-  .about-left p {
-    font-family: "Fraunces", Georgia, serif;
-    font-weight: 400;
-    font-variation-settings: "opsz" 96, "SOFT" 50;
-    font-size: 24px;
-    line-height: 1.35;
-    letter-spacing: -0.005em;
-    color: var(--ink);
-    margin-bottom: 20px;
-  }
-
-  .about-left p em {
-    font-style: italic;
-    color: var(--metric);
-  }
-
-  .about-right p {
-    font-size: 16px;
-    line-height: 1.65;
-    color: var(--ink-2);
-    margin-bottom: 16px;
-  }
-
-  .about-right ul {
-    list-style: none;
-    margin-top: 20px;
-  }
-
-  .about-right li {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 13px;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--rule);
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
-  }
-
-  .about-right li:last-child { border-bottom: none; }
-
-  .about-right li span:first-child {
-    color: var(--mid);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    font-size: 11px;
-  }
-
-  .about-right li span:last-child {
-    color: var(--ink);
-    text-align: right;
-  }
-
-  /* ─── CONTACT ─── */
-
-  .contact-block {
-    padding: 90px 0 80px;
-    text-align: left;
-  }
-
-  .contact-hook {
-    font-family: "Fraunces", Georgia, serif;
-    font-weight: 500;
-    font-variation-settings: "opsz" 144, "SOFT" 60;
-    font-size: clamp(32px, 4.5vw, 56px);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    max-width: 780px;
-    margin-bottom: 44px;
-    color: var(--ink);
-  }
-
-  .contact-hook em {
-    font-style: italic;
-    color: var(--metric);
-  }
-
-  .contact-links {
-    display: flex;
-    gap: 40px;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
-  }
-
-  .contact-link {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    text-decoration: none;
-    color: var(--ink);
-    transition: color 0.15s;
-  }
-
-  .contact-link:hover { color: var(--metric); }
-
-  .contact-link .label {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 11px;
-    color: var(--mid);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  .contact-link .value {
-    font-family: "IBM Plex Sans", sans-serif;
-    font-size: 17px;
-    font-weight: 500;
-    letter-spacing: -0.005em;
-  }
-
-  /* ─── FOOTER ─── */
-
-  footer {
-    padding: 30px 0 40px;
-    border-top: 1px solid var(--rule);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 11px;
-    color: var(--mid);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  /* ─── RESPONSIVE ─── */
-
-  @media (max-width: 860px) {
-    .wrap { padding: 0 22px; }
-    .hero { padding: 80px 0 60px; }
-    .proof-grid { grid-template-columns: 1fr; border-bottom: none; }
-    .proof-cell { border-right: none; border-bottom: 1px solid var(--rule); min-height: auto; }
-    .proof-cell:last-child { border-bottom: 1px solid var(--ink); }
-    .work-item { grid-template-columns: 40px 1fr; }
-    .work-stack { grid-column: 2; }
-    .services { grid-template-columns: 1fr; }
-    .service { padding: 32px 0; border-right: none; }
-    .service:nth-child(even) { padding-left: 0; }
-    .service:nth-last-child(2) { border-bottom: 1px solid var(--rule); }
-    .about-block { grid-template-columns: 1fr; gap: 30px; }
-    .section-head { padding-top: 70px; }
-    .contact-hook { font-size: clamp(28px, 8vw, 44px); }
-    .contact-links { gap: 24px; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    * { animation: none !important; transition: none !important; }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 24px;}
+  a{color:var(--signal);text-decoration:none;border-bottom:1px solid rgba(179,36,92,.32);}
+  a:hover{border-bottom-color:var(--signal);}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--signal);outline-offset:3px;border-radius:2px;}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
+
+  header{border-bottom:1px solid var(--rule);background:rgba(251,238,242,.93);backdrop-filter:blur(8px);position:sticky;top:0;z-index:10;}
+  header .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 24px;flex-wrap:wrap;}
+  .sig{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:15px;letter-spacing:-.01em;}
+  nav{display:flex;gap:20px;}
+  nav a{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted);border:none;letter-spacing:.04em;}
+  nav a:hover{color:var(--ink);}
+
+  .hero{padding:78px 0 54px;}
+  .hero h1{font-family:"Space Grotesk",sans-serif;font-size:clamp(29px,4.9vw,50px);line-height:1.1;
+    letter-spacing:-.025em;font-weight:700;margin:14px 0 20px;max-width:22ch;}
+  .hero h1 em{font-style:normal;color:var(--signal);}
+  .lede{font-size:18px;max-width:62ch;color:#4A3540;margin:0 0 12px;}
+  .lede-sm{font-size:16px;max-width:62ch;color:var(--muted);margin:0 0 30px;}
+
+  .strip{margin-top:32px;border:1px solid var(--rule);border-radius:var(--r);background:var(--surface);overflow:hidden;}
+  .strip-row{display:grid;grid-template-columns:repeat(4,1fr);}
+  .cellx{padding:16px 18px;border-right:1px solid var(--rule);}
+  .cellx:last-child{border-right:none;}
+  .cellx .k{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px;}
+  .cellx .v{font-family:"Space Grotesk",sans-serif;font-weight:500;font-size:15px;line-height:1.3;}
+
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:32px;
+    border:1px solid var(--rule);border-radius:var(--r);background:var(--surface);overflow:hidden;}
+  .stat{padding:20px 20px;border-right:1px solid var(--rule);}
+  .stat:last-child{border-right:none;}
+  .stat .n{font-family:"Space Grotesk",sans-serif;font-size:30px;font-weight:700;color:var(--signal);
+    letter-spacing:-.02em;line-height:1;}
+  .stat .l{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--muted);margin:10px 0 6px;display:block;}
+  .stat .d{font-size:13.5px;color:#4A3540;}
+  .svc{display:grid;grid-template-columns:1fr 1fr;gap:0 32px;}
+  .svc div{border-top:1px solid var(--rule);padding:18px 0;}
+  .svc h4{font-family:"Space Grotesk",sans-serif;font-size:16px;font-weight:600;margin:0 0 6px;}
+  .svc .tag{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--signal);display:block;margin-bottom:6px;}
+  .svc p{margin:0;font-size:14.5px;color:#4A3540;}
+  .ops{list-style:none;counter-reset:op;margin:0;padding:0;}
+  .ops li{counter-increment:op;position:relative;padding:16px 0 16px 44px;border-top:1px solid var(--rule);
+    max-width:74ch;color:#3B2530;}
+  .ops li:first-child{border-top:none;}
+  .ops li::before{content:counter(op,decimal-leading-zero);position:absolute;left:0;top:18px;
+    font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--signal);letter-spacing:.08em;}
+  .ops strong{font-family:"Space Grotesk",sans-serif;font-weight:600;}
+  section{padding:56px 0;border-top:1px solid var(--rule);}
+  h2{font-family:"Space Grotesk",sans-serif;font-size:26px;letter-spacing:-.02em;font-weight:700;margin:8px 0 8px;}
+  .sec-note{color:var(--muted);font-size:15px;margin:0 0 30px;max-width:64ch;}
+
+  .work{display:flex;flex-direction:column;gap:18px;}
+  .card{background:var(--surface);border:1px solid var(--rule);border-radius:var(--r);padding:26px 28px;
+    transition:border-color .18s ease, transform .18s ease;}
+  .card:hover{border-color:#DFA8BD;transform:translateY(-2px);}
+  .card h3{font-family:"Space Grotesk",sans-serif;font-size:20px;font-weight:600;letter-spacing:-.01em;margin:0 0 10px;}
+  .plain{margin:0 0 14px;color:#3B2530;max-width:74ch;font-size:16.5px;}
+  .built{margin:0 0 4px;color:var(--muted);max-width:74ch;font-size:15px;}
+  .stackline{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted);}
+
+  .result{border-top:1px solid var(--rule);margin-top:18px;padding-top:14px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;}
+  .result .rk{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+  .result .rv{font-family:"IBM Plex Mono",monospace;font-size:14.5px;font-weight:600;color:var(--measure);}
+
+  .links{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;}
+  .lk{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:12.5px;padding:6px 13px;
+    border:1px solid var(--rule);border-radius:3px;color:var(--ink);background:#FDF6F8;}
+  .lk:hover{border-color:var(--signal);color:var(--signal);background:#fff;}
+  .todo{display:inline-block;color:#B4442F;border:1px dashed #E0A99E;border-radius:3px;padding:6px 13px;
+    font-family:"IBM Plex Mono",monospace;font-size:12.5px;}
+  .private{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted);padding-top:7px;}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:26px;}
+  .kv{border-top:1px solid var(--rule);padding-top:12px;margin-top:12px;}
+  .kv:first-child{border-top:none;margin-top:0;padding-top:0;}
+  .kv dt{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+  .kv dd{margin:0;font-size:15px;}
+
+  footer{border-top:1px solid var(--rule);padding:46px 0 64px;}
+  .btn{display:inline-block;background:var(--ink);color:#fff;border-radius:var(--r);padding:12px 20px;
+    font-family:"IBM Plex Mono",monospace;font-size:13.5px;border:none;}
+  .btn:hover{background:var(--signal);color:#fff;}
+  .contact{display:flex;gap:16px;flex-wrap:wrap;margin-top:20px;font-family:"IBM Plex Mono",monospace;font-size:14px;}
+  .fine{color:var(--muted);font-size:13px;margin-top:24px;}
+
+  .rise{opacity:0;transform:translateY(10px);animation:rise .55s cubic-bezier(.2,.7,.3,1) forwards;}
+  @keyframes rise{to{opacity:1;transform:none;}}
+  @media (prefers-reduced-motion:reduce){.rise{animation:none;opacity:1;transform:none;} .card{transition:none;} html{scroll-behavior:auto;}}
+  @media (max-width:760px){
+    .strip-row{grid-template-columns:1fr 1fr;}
+    .cellx{border-bottom:1px solid var(--rule);}
+    .grid2{grid-template-columns:1fr;}
+    nav{gap:14px;} .hero{padding:52px 0 40px;}
   }
 </style>
 </head>
 <body>
 
-<div class="wrap">
-
-  <!-- ─── NAV ─── -->
-  <nav class="nav">
-    <div class="nav-brand"><span class="dot"></span>EDE AIBUEDEFE / ML ENGINEER / LAGOS</div>
-    <div class="nav-links">
+<header>
+  <div class="wrap">
+    <span class="sig">Ede Aibuedefe</span>
+    <nav>
       <a href="#work">Work</a>
-      <a href="#build">Services</a>
+      <a href="#how">How I work</a>
+      <a href="#services">Services</a>
+      <a href="#stack">Stack</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
-    </div>
-  </nav>
+    </nav>
+  </div>
+</header>
 
-  <!-- ─── HERO ─── -->
-  <section class="hero">
-    <h1>
-      Most AI projects look <em>amazing in a demo</em> and then nobody ever actually uses them.
-    </h1>
-    <p class="hero-sub">
-      I'm the engineer who turns AI ideas into production systems real people depend on. I ship on AWS, monitor after launch, and keep things fast, accurate, and cheap to run. Two years shipping in fintech, delivery, and enterprise workflows out of Lagos.
+<div class="wrap">
+
+  <div class="hero rise">
+    <span class="eyebrow">Machine Learning Engineer &middot; Lagos, Nigeria &middot; Remote</span>
+    <h1>Most AI projects look great in a demo. <em>Then nobody uses them.</em></h1>
+    <p class="lede">
+      I'm the engineer who turns AI ideas into tools people use every day. I build systems that can read,
+      search and reason over a company's own information, and I make sure they keep working in the real
+      world, not just on my laptop.
     </p>
-    <div class="hero-cta">
-      <a class="btn-primary" href="#work">See the work <span class="arrow">→</span></a>
-      <a class="btn-secondary" href="#contact">Or get in touch</a>
-    </div>
-  </section>
+    <p class="lede-sm">
+      I work best with startups and small teams who have a strong AI idea and need someone to make it real,
+      reliable and ready for actual users.
+    </p>
+    <a class="btn" href="#contact">See if I'm a fit for your team</a>
 
-  <!-- ─── PROOF STRIP ─── -->
-  <section class="proof-strip" id="proof">
-    <div class="proof-grid">
-      <div class="proof-cell">
-        <div>
-          <div class="proof-label">Pipeline latency</div>
-          <div class="proof-metric">4×</div>
-        </div>
-        <div class="proof-body">
-          <div class="proof-text">Cut an SOP-to-video generation pipeline from ~500s to ~120s. Fewer timeouts, cheaper runs, users stopped waiting.</div>
-        </div>
-      </div>
-      <div class="proof-cell">
-        <div>
-          <div class="proof-label">Workflow speedup</div>
-          <div class="proof-metric">6×</div>
-        </div>
-        <div class="proof-body">
-          <div class="proof-text">Built an AI SOW drafter that turned a 30-minute task into under 5. The team I built it for actually uses it — every day.</div>
-        </div>
-      </div>
-      <div class="proof-cell">
-        <div>
-          <div class="proof-label">As sole AI owner</div>
-          <div class="proof-metric-sm">0&nbsp;→&nbsp;MVP</div>
-        </div>
-        <div class="proof-body">
-          <div class="proof-text">Took a build-by-chat product's AI from a blank page to a working MVP. Picked the models, designed the pipeline, shipped it, set the direction the rest of the team built on.</div>
-        </div>
-      </div>
+    <div class="stats">
+      <div class="stat"><span class="n">4&times;</span><span class="l">Pipeline latency</span>
+        <span class="d">Cut an SOP-to-video generation pipeline from about 500s to about 120s. Fewer timeouts, cheaper runs.</span></div>
+      <div class="stat"><span class="n">6&times;</span><span class="l">Workflow speedup</span>
+        <span class="d">Built a scope-of-work drafter that took a 30 minute task to under 5. The team adopted it.</span></div>
+      <div class="stat"><span class="n">0 &rarr; MVP</span><span class="l">As sole AI owner</span>
+        <span class="d">Took a build-by-chat product's AI from a blank page to a working, public MVP.</span></div>
     </div>
-  </section>
+  </div>
 
-  <!-- ─── SELECTED WORK ─── -->
   <section id="work">
-    <div class="section-head">
-      <span class="section-num">01 / WORK</span>
-      <h2>Selected <em>work</em></h2>
-    </div>
-
-    <!-- Work 1: SOP video -->
-    <div class="work-item">
-      <div class="work-num">01</div>
-      <div class="work-content">
-        <h3>SOP-to-video pipeline</h3>
-        <div class="subhead">Written procedures → instructional videos. 4× faster.</div>
-        <p>An agent pipeline that reads a written SOP and produces a narrated instructional video. Turned a slow, expensive generation loop into one that ran in ~120s instead of ~500s — better tool selection, tighter prompting, parallelism where it mattered.</p>
-        <p style="color: var(--ink);"><strong>What this proves:</strong> I don't just build agent demos. I profile them, find where the time actually goes, and rebuild until they're cheap enough to ship.</p>
-      </div>
-      <div class="work-stack">
-        <div class="work-status"><span class="pulse"></span>Deployed</div>
-        <div class="work-stack-label">Stack</div>
-        <div class="stack-tags">
-          <span class="stack-tag">Bedrock</span>
-          <span class="stack-tag">Claude</span>
-          <span class="stack-tag">Polly</span>
-          <span class="stack-tag">Nova Reel</span>
-          <span class="stack-tag">MediaConvert</span>
-          <span class="stack-tag">Strands Agents</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Work 2: SOW drafter -->
-    <div class="work-item">
-      <div class="work-num">02</div>
-      <div class="work-content">
-        <h3>AI SOW drafter</h3>
-        <div class="subhead">First-draft work documents, in the team's own templates</div>
-        <p>An LLM tool that writes SOW first drafts straight into the company's Word templates, structured outputs and all. What used to take a person 30 minutes now takes under 5. It's in daily use by the team I built it for.</p>
-        <p style="color: var(--ink);"><strong>What this proves:</strong> I build tools that survive the "cool demo → nobody uses it" gap. Actual behaviour change is the metric that matters.</p>
-      </div>
-      <div class="work-stack">
-        <div class="work-status"><span class="pulse"></span>Live daily use</div>
-        <div class="work-stack-label">Stack</div>
-        <div class="stack-tags">
-          <span class="stack-tag">Python</span>
-          <span class="stack-tag">Claude</span>
-          <span class="stack-tag">LangChain</span>
-          <span class="stack-tag">docx templating</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Work 3: 9Stack -->
-    <div class="work-item">
-      <div class="work-num">03</div>
-      <div class="work-content">
-        <h3>9Stack — Build by chat</h3>
-        <div class="subhead">AI Lead. Describe an app in plain language, get a working one.</div>
-        <p>Owned the AI end-to-end for a build-by-chat product. Chose the models, designed the prompting and orchestration, architected long-running generation as async background jobs (Inngest) with retries and durable state. Took the AI from zero to a usable MVP as sole AI owner and set the technical direction the rest of the team built on.</p>
-        <p style="color: var(--ink);"><strong>What this proves:</strong> I can own an AI product from a blank page — pick the stack, write the pipeline, ship the MVP — at startup speed.</p>
-      </div>
-      <div class="work-stack">
-        <div class="work-status"><span class="pulse"></span>MVP shipped</div>
-        <div class="work-stack-label">Stack</div>
-        <div class="stack-tags">
-          <span class="stack-tag">Python</span>
-          <span class="stack-tag">Inngest</span>
-          <span class="stack-tag">LLMs</span>
-          <span class="stack-tag">Prompt eng.</span>
-          <span class="stack-tag">Async jobs</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Work 4: Ojify (Chowdeck-adjacent) -->
-    <div class="work-item">
-      <div class="work-num">04</div>
-      <div class="work-content">
-        <h3>Ojify</h3>
-        <div class="subhead">Founder + technical lead. Hyperlocal quick-commerce for Lagos.</div>
-        <p>A multi-vendor marketplace targeting sub-six-hour delivery across Lagos, integrating Interswitch for payments and Kwik for logistics. I designed the system architecture, the 28-table Postgres schema, the OpenAPI spec, and the CI/CD. Currently shipping the first vertical slice.</p>
-        <p style="color: var(--ink);"><strong>What this proves:</strong> I understand on-demand delivery from the inside — vendor onboarding, dispatch, ETA, payments, last-mile — not just as an ML problem, but as an actual business.</p>
-      </div>
-      <div class="work-stack">
-        <div class="work-status"><span class="pulse"></span>In development</div>
-        <div class="work-stack-label">Stack</div>
-        <div class="stack-tags">
-          <span class="stack-tag">FastAPI</span>
-          <span class="stack-tag">PostgreSQL</span>
-          <span class="stack-tag">Interswitch</span>
-          <span class="stack-tag">Kwik</span>
-          <span class="stack-tag">AWS</span>
-        </div>
-      </div>
-    </div>
-
-  </section>
-
-  <!-- ─── SERVICES ─── -->
-  <section id="build">
-    <div class="section-head">
-      <span class="section-num">02 / SERVICES</span>
-      <h2>What I <em>build for</em></h2>
-    </div>
-
-    <div class="services">
-      <div class="service">
-        <div class="service-num">A / PRODUCTION ML</div>
-        <h3>ML systems that hold up after launch</h3>
-        <p>Feature pipelines, model serving, monitoring, drift detection. I care about latency budgets, cost per prediction, and the model still being right in three months. AWS-native, IaC with Terraform.</p>
-      </div>
-
-      <div class="service">
-        <div class="service-num">B / FRAUD &amp; ANOMALY</div>
-        <h3>Detection systems for financial services</h3>
-        <p>Fraud detection, transaction monitoring, and anomaly scoring. Freelance and enterprise projects across Nigerian financial services — the domain where "eventually correct" isn't good enough.</p>
-      </div>
-
-      <div class="service">
-        <div class="service-num">C / AGENTS &amp; LLMs</div>
-        <h3>GenAI that behaves in production</h3>
-        <p>RAG systems, agent orchestration, tool use, structured outputs, guardrails, and eval harnesses. LangChain, Strands SDK, Bedrock, Claude, GPT. I've cut agent pipelines by 4× on latency.</p>
-      </div>
-
-      <div class="service">
-        <div class="service-num">D / OPERATIONS ML</div>
-        <h3>ML for logistics, delivery &amp; operations</h3>
-        <p>ETA prediction, demand forecasting, routing, recommendations, operational automation. Direct domain context from building Ojify — I understand the problems from both sides of the screen.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── ABOUT ─── -->
-  <section id="about">
-    <div class="section-head">
-      <span class="section-num">03 / ABOUT</span>
-      <h2>Where I fit <em>best</em></h2>
-    </div>
-
-    <div class="about-block">
-      <div class="about-left">
-        <p>Startups and small teams who have a great AI idea but need someone to make it <em>real, reliable, and ready for actual users.</em></p>
-        <p style="font-size: 18px; font-family: 'IBM Plex Sans', sans-serif; color: var(--ink-2); line-height: 1.6; font-variation-settings: normal;">The best AI project I've ever shipped is one nobody has to think about. It just works. That's the bar.</p>
-      </div>
-      <div class="about-right">
-        <p>I studied core ML — regression, classification, deep networks, statistics — before the LLM boom, and I still reach for a boosted tree first when latency, cost, or explainability matter. GenAI is a tool in the box, not the box.</p>
-        <p>Based in Lagos, working timezone-friendly for European and US teams. Open to full-time and contract remote roles anywhere.</p>
-        <ul>
-          <li><span>Certified</span><span>AWS ML Engineer (Associate)</span></li>
-          <li><span>Also certified</span><span>AWS AI Practitioner · OCI GenAI Pro</span></li>
-          <li><span>Currently at</span><span>Datamellon (Lagos)</span></li>
-          <li><span>Currently building</span><span>Ojify — hyperlocal delivery, Lagos</span></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── CONTACT ─── -->
-  <section id="contact" class="contact-block">
-    <div class="section-head" style="border-top: 1px solid var(--rule); padding-top: 90px; margin-bottom: 40px;">
-      <span class="section-num">04 / CONTACT</span>
-      <h2>Let's <em>talk</em></h2>
-    </div>
-
-    <p class="contact-hook">
-      If your team has an AI idea that needs to <em>become a product</em>, or a model that needs to survive contact with real users — get in touch.
+    <span class="eyebrow">Selected work</span>
+    <h2>What I've built, and what changed because of it</h2>
+    <p class="sec-note">
+      Every project below answers the same question first: what does this actually do for a real person?
+      Code, demos and case studies are linked directly.
     </p>
 
-    <div class="contact-links">
-      <a class="contact-link" href="mailto:edeaibuedefe3@gmail.com">
-        <span class="label">Email</span>
-        <span class="value">edeaibuedefe3@gmail.com</span>
-      </a>
-      <a class="contact-link" href="https://www.linkedin.com/in/edeaibuedefe/" target="_blank" rel="noopener">
-        <span class="label">LinkedIn</span>
-        <span class="value">/in/edeaibuedefe</span>
-      </a>
-      <a class="contact-link" href="https://github.com/Aibuedefe-bot" target="_blank" rel="noopener">
-        <span class="label">GitHub</span>
-        <span class="value">@Aibuedefe-bot</span>
-      </a>
-      <a class="contact-link" href="https://medium.com/@edeaibuedefe2" target="_blank" rel="noopener">
-        <span class="label">Writing</span>
-        <span class="value">Medium</span>
-      </a>
-      <a class="contact-link" href="https://hello.cv/edeaibuedefe" target="_blank" rel="noopener">
-        <span class="label">CV</span>
-        <span class="value">hello.cv/edeaibuedefe</span>
-      </a>
-      <a class="contact-link" href="tel:+2348103069369">
-        <span class="label">Phone</span>
-        <span class="value">+234 810 306 9369</span>
-      </a>
+    <div class="work">
+
+      <article class="card">
+        <h3>9Stack: build a website or app by chatting with AI</h3>
+        <p class="plain">
+          You describe what you want in plain language and it builds it. A working site or app, generated from
+          the conversation, saved so you can come back and keep going. Built for people who have a business
+          but not a developer.
+        </p>
+        <p class="built">
+          I owned the AI end to end as the sole AI engineer: picked the models, designed the prompting and
+          orchestration, and architected long-running generation as async background jobs with retries and
+          durable state, because a build that takes two minutes cannot run inside a web request. Live and in
+          public use. Students across Africa used it to put their first sites online during an AfCFTA
+          programme bootcamp I ran.
+        </p>
+        <span class="stackline">Python &middot; Inngest &middot; LLM orchestration &middot; async job pipeline &middot; Vercel</span>
+        <div class="result"><span class="rk">Result</span><span class="rv">zero to a public MVP, live now, go and use it</span></div>
+        <div class="links"><a class="lk" href="https://9stackai.vercel.app/" target="_blank" rel="noopener">Open the live app</a></div>
+      </article>
+
+      <article class="card">
+        <h3>An AI tool that writes scoping documents in under five minutes</h3>
+        <p class="plain">
+          Solution architects were spending about thirty minutes hand-writing each scope-of-work document
+          before they could quote a client. This tool takes a plain-language project brief and produces a
+          first draft straight into the company's own template. The team adopted it and used it on client
+          scoping until they paused to redesign the process it sits inside.
+        </p>
+        <p class="built">Built as an MCP server so it plugs directly into the tools the team already had open.</p>
+        <span class="stackline">MCP · FastMCP · AWS Bedrock · Python · structured output validation</span>
+        <div class="result"><span class="rk">Result</span><span class="rv">~30 minutes to under 5 minutes per document, adopted by the solution-architect team</span></div>
+        <div class="links"><a class="lk" href="case-studies/scope-of-work-generator.html">Read the case study</a></div>
+        <p class="private">Client tooling, so any walkthrough uses dummy data.</p>
+      </article>
+
+
+
+      <article class="card">
+        <h3>Describe a system in plain English, get an AWS architecture diagram</h3>
+        <p class="plain">
+          Type what you want to build and get back a real AWS architecture diagram, with the official icons
+          and the cloud, VPC, availability zone and subnet boxes drawn around the right services. It saves as
+          a .drawio file, so you open it and edit it, because the first version is never the final version.
+        </p>
+        <p class="built">
+          The model never decides layout. It returns a flat list of components, each tagged with one word for
+          the zone it belongs to, and Python builds every container from the inside out. A 3B model can't nest
+          a subnet inside the wrong VPC because it is never asked to. It runs on your own machine, so there is
+          no API cost and no design detail leaves your laptop.
+        </p>
+        <span class="stackline">FastMCP &middot; Ollama llama3.2:3b &middot; Streamlit &middot; Python 3.11 &middot; draw.io XML</span>
+        <div class="result"><span class="rk">Result</span><span class="rv">runs locally at zero cost, with every failure case documented from measured runs</span></div>
+        <div class="links"><a class="lk" href="https://github.com/Aibuedefe-bot/text_to_arithecture-" target="_blank" rel="noopener">View the code</a><a class="lk" href="https://youtu.be/oTfVMdAIGtI" target="_blank" rel="noopener">Watch the demo</a></div>
+      </article>
+
+      <article class="card">
+        <h3>Turning written procedures into narrated instructional videos</h3>
+        <p class="plain">
+          An agent pipeline that reads a written standard operating procedure and produces a narrated video
+          walkthrough of it. Nobody reads a 12 page procedure document. They will watch two minutes.
+        </p>
+        <p class="built">
+          The first version worked and took around 500 seconds per video, which meant timeouts and users
+          giving up. I profiled where the time actually went and rebuilt it: better tool selection, tighter
+          prompting, and parallelism where it earned its place. It runs in about 120 seconds now. Building
+          agent demos is easy. Making one cheap enough to leave running is the job.
+        </p>
+        <span class="stackline">AWS Bedrock &middot; Claude &middot; Polly &middot; Nova Reel &middot; MediaConvert &middot; Strands Agents</span>
+        <div class="result"><span class="rk">Result</span><span class="rv">about 500s to about 120s per video, roughly 4x faster and cheaper per run</span></div>
+        <div class="links"><a class="lk" href="case-studies/production-ai-systems.html">How I work on client systems</a></div>
+        <p class="private">Client work, so the code isn't public. Architecture and decisions available on request.</p>
+      </article>
+
+
+      <article class="card">
+        <h3>Ojiffy: hyperlocal quick commerce for Lagos</h3>
+        <p class="plain">
+          A multi-vendor marketplace built around same day delivery across Lagos, with payments through
+          Interswitch and last mile through Kwik. I'm co-founder and CTO, and I designed the system: the
+          architecture, a 28 table Postgres schema, the OpenAPI spec, and the CI/CD.
+        </p>
+        <p class="built">
+          This is where I learned delivery from the inside rather than as an ML problem. Vendor onboarding,
+          dispatch, ETAs, payments, last mile, and the fact that none of it matters until someone actually
+          buys something. When we couldn't hire a field sales agent, I did the vendor visits myself.
+        </p>
+        <span class="stackline">FastAPI &middot; PostgreSQL &middot; Interswitch &middot; Kwik &middot; AWS</span>
+        <div class="result"><span class="rk">Result</span><span class="rv">architecture, schema, API spec and pipeline designed and shipping</span></div>
+      </article>
     </div>
   </section>
 
-  <!-- ─── FOOTER ─── -->
-  <footer>
-    <div>© 2026 Ede Aibuedefe · Lagos, Nigeria</div>
-    <div>Built with restraint, shipped with intent</div>
+  <section id="how">
+    <span class="eyebrow">How I work</span>
+    <h2>What I'll argue for on your team</h2>
+    <p class="sec-note">
+      So you know what you're getting before you hire me.
+    </p>
+    <ol class="ops">
+      <li><strong>Evaluation first, then the feature.</strong> If I can't measure whether a change made things better, I'm guessing. So are you.</li>
+      <li><strong>Boring and running beats clever and half finished.</strong> Most of what makes a system reliable is unexciting work nobody claps for.</li>
+      <li><strong>The limitation goes in the README.</strong> Every model has a case it handles badly. Better you hear it from me now than find it in month three.</li>
+      <li><strong>I write things down.</strong> Decisions go somewhere people can find them. I'm five hours ahead of New York, so nobody should be stuck waiting for me to wake up.</li>
+      <li><strong>Tell me early if I'm wrong.</strong> I'd rather redo it on Tuesday than defend it until Friday.</li>
+    </ol>
+  </section>
+
+  <section id="services">
+    <span class="eyebrow">What I build</span>
+    <h2>Where I'm most useful</h2>
+    <div class="svc">
+      <div><span class="tag">A / Production ML</span><h4>Systems that hold up after launch</h4>
+        <p>Feature pipelines, model serving, monitoring, drift. Latency budgets, cost per prediction, and the model still being right in three months. AWS native, Terraform.</p></div>
+      <div><span class="tag">B / Agents &amp; LLMs</span><h4>GenAI that behaves in production</h4>
+        <p>RAG, agent orchestration, tool use, structured outputs, guardrails, eval harnesses. I've cut an agent pipeline 4x on latency.</p></div>
+      <div><span class="tag">C / Fraud &amp; anomaly</span><h4>Detection for financial services</h4>
+        <p>Fraud detection, transaction monitoring, anomaly scoring. Work across Nigerian financial services, the domain where eventually correct isn't good enough.</p></div>
+      <div><span class="tag">D / Operations ML</span><h4>Logistics, delivery and ops</h4>
+        <p>ETA prediction, demand forecasting, routing, recommendations. Direct domain context from building Ojiffy, from both sides of the screen.</p></div>
+    </div>
+  </section>
+
+  <section id="stack">
+    <span class="eyebrow">Working with</span>
+    <h2>Stack</h2>
+    <div class="grid2">
+      <dl>
+        <div class="kv"><dt>AI / ML</dt><dd>RAG pipelines, agentic systems, MCP, evaluation harnesses, LLM-as-judge, retrieval optimisation, PyTorch, scikit-learn</dd></div>
+        <div class="kv"><dt>AWS</dt><dd>Bedrock, Lambda, OpenSearch, DynamoDB, S3, IAM</dd></div>
+        <div class="kv"><dt>Certifications</dt><dd>AWS Certified Machine Learning Engineer · AWS Certified AI Practitioner</dd></div>
+      </dl>
+      <dl>
+        <div class="kv"><dt>Engineering</dt><dd>Python, FastAPI, Pydantic, pytest, SQLAlchemy, PostgreSQL, Git</dd></div>
+        <div class="kv"><dt>Infrastructure</dt><dd>Terraform, Docker, GitHub Actions, OpenTelemetry, Linux</dd></div>
+        <div class="kv"><dt>Education</dt><dd>B.Sc. Computer Science, Benson Idahosa University</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section id="about">
+    <span class="eyebrow">About</span>
+    <h2>Short version</h2>
+    <p class="sec-note" style="max-width:72ch;">
+      I'm a machine learning engineer in Lagos. I build AI systems on AWS for an AWS partner company, mostly
+      search, retrieval and agents, and I've shipped them into production for clients in banking, aviation
+      and agriculture. I'm AWS Machine Learning certified.
+    </p>
+    <p class="sec-note" style="max-width:72ch;">
+      I'm also co-founder and CTO of Ojiffy, a quick commerce marketplace in Lagos. We couldn't hire a field
+      sales agent, so I do the vendor visits myself, four hours a day on foot. It has made me a better
+      engineer. When you've spent the morning trying to get one shop owner to sign up, you stop building
+      things nobody asked for.
+    </p>
+    <p class="sec-note" style="max-width:72ch;">
+      You're probably wondering how that fits with a full time role. I've done both since early 2026. The
+      engineering job gets my working hours. I'd give you the same answer in an interview.
+    </p>
+    <p class="sec-note" style="max-width:72ch;">
+      I learned core ML before the LLM boom, regression, classification, deep networks, statistics, and I
+      still reach for a boosted tree first when latency, cost or explainability matter. GenAI is a tool in
+      the box, not the box.
+    </p>
+    <p class="sec-note" style="max-width:72ch;">
+      I sing soprano. I got tired of practising against a recording with all four parts in it, so I built a
+      model to pull my part out. Most of my projects start as something small that annoys me.
+    </p>
+  </section>
+
+  <footer id="contact">
+    <span class="eyebrow">Contact</span>
+    <h2>Have an AI idea that needs to become a real product?</h2>
+    <p class="sec-note">
+      Open to full-time and contract remote roles anywhere in the world. Email is fastest. Tell me what
+      you're building and I'll tell you honestly whether I'm the right person for it.
+    </p>
+    <a class="btn" href="mailto:edeaibuedefe3@gmail.com">edeaibuedefe3@gmail.com</a>
+    <div class="contact">
+      <a href="https://linkedin.com/in/edeaibuedefe">LinkedIn</a>
+      <a href="https://github.com/Aibuedefe-bot">GitHub</a>
+      <a href="https://hello.cv/edeaibuedefe" target="_blank" rel="noopener">CV</a>
+      <a href="https://medium.com/@edeaibuedefe3" target="_blank" rel="noopener">Writing</a>
+    </div>
+    <p class="fine">Lagos, Nigeria · GMT+1 · overlaps European and US-East working hours</p>
   </footer>
 
 </div>
 
+<script>
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.card').forEach((el, i) => {
+      el.classList.add('rise');
+      el.style.animationDelay = (60 + i * 55) + 'ms';
+    });
+  }
+</script>
 </body>
 </html>
