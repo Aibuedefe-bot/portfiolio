@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case study: production AI systems | Ede Aibuedefe</title>
+<meta name="description" content="Building and shipping production RAG and agent systems on AWS for clients in banking, aviation and agriculture.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --paper:#FBEEF2; --surface:#FFFFFF; --ink:#2B1622; --muted:#7C6570;
+    --rule:#F0D3DD; --signal:#B3245C; --measure:#7A2B57; --r:5px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 24px;}
+  a{color:var(--signal);text-decoration:none;border-bottom:1px solid rgba(179,36,92,.32);}
+  a:hover{border-bottom-color:var(--signal);}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--signal);outline-offset:3px;border-radius:2px;}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
+
+  header{border-bottom:1px solid var(--rule);background:rgba(251,238,242,.93);backdrop-filter:blur(8px);position:sticky;top:0;z-index:10;}
+  header .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 24px;flex-wrap:wrap;}
+  .sig{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:15px;letter-spacing:-.01em;}
+  nav{display:flex;gap:20px;}
+  nav a{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted);border:none;letter-spacing:.04em;}
+  nav a:hover{color:var(--ink);}
+
+  .hero{padding:78px 0 54px;}
+  .hero-head{display:flex;align-items:center;gap:16px;margin-bottom:6px;}
+  .avatar{width:64px;height:64px;border-radius:50%;object-fit:cover;
+    border:2px solid var(--surface);box-shadow:0 0 0 1px var(--rule);flex:0 0 auto;}
+  .hero h1{font-family:"Space Grotesk",sans-serif;font-size:clamp(29px,4.9vw,50px);line-height:1.1;
+    letter-spacing:-.025em;font-weight:700;margin:14px 0 20px;max-width:22ch;}
+  .hero h1 em{font-style:normal;color:var(--signal);}
+  .lede{font-size:18px;max-width:62ch;color:#4A3540;margin:0 0 12px;}
+  .lede-sm{font-size:16px;max-width:62ch;color:var(--muted);margin:0 0 30px;}
+
+  .strip{margin-top:32px;border:1px solid var(--rule);border-radius:var(--r);background:var(--surface);overflow:hidden;}
+  .strip-row{display:grid;grid-template-columns:repeat(4,1fr);}
+  .cellx{padding:16px 18px;border-right:1px solid var(--rule);}
+  .cellx:last-child{border-right:none;}
+  .cellx .k{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px;}
+  .cellx .v{font-family:"Space Grotesk",sans-serif;font-weight:500;font-size:15px;line-height:1.3;}
+
+  section{padding:56px 0;border-top:1px solid var(--rule);}
+  h2{font-family:"Space Grotesk",sans-serif;font-size:26px;letter-spacing:-.02em;font-weight:700;margin:8px 0 8px;}
+  .sec-note{color:var(--muted);font-size:15px;margin:0 0 30px;max-width:64ch;}
+
+  .work{display:flex;flex-direction:column;gap:18px;}
+  .card{background:var(--surface);border:1px solid var(--rule);border-radius:var(--r);padding:26px 28px;
+    transition:border-color .18s ease, transform .18s ease;}
+  .card:hover{border-color:#DFA8BD;transform:translateY(-2px);}
+  .card h3{font-family:"Space Grotesk",sans-serif;font-size:20px;font-weight:600;letter-spacing:-.01em;margin:0 0 10px;}
+  .plain{margin:0 0 14px;color:#3B2530;max-width:74ch;font-size:16.5px;}
+  .built{margin:0 0 4px;color:var(--muted);max-width:74ch;font-size:15px;}
+  .stackline{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted);}
+
+  .result{border-top:1px solid var(--rule);margin-top:18px;padding-top:14px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;}
+  .result .rk{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+  .result .rv{font-family:"IBM Plex Mono",monospace;font-size:14.5px;font-weight:600;color:var(--measure);}
+
+  .links{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;}
+  .lk{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:12.5px;padding:6px 13px;
+    border:1px solid var(--rule);border-radius:3px;color:var(--ink);background:#FDF6F8;}
+  .lk:hover{border-color:var(--signal);color:var(--signal);background:#fff;}
+  .todo{display:inline-block;color:#B4442F;border:1px dashed #E0A99E;border-radius:3px;padding:6px 13px;
+    font-family:"IBM Plex Mono",monospace;font-size:12.5px;}
+  .private{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted);padding-top:7px;}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:26px;}
+  .kv{border-top:1px solid var(--rule);padding-top:12px;margin-top:12px;}
+  .kv:first-child{border-top:none;margin-top:0;padding-top:0;}
+  .kv dt{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+  .kv dd{margin:0;font-size:15px;}
+
+  footer{border-top:1px solid var(--rule);padding:46px 0 64px;}
+  .btn{display:inline-block;background:var(--ink);color:#fff;border-radius:var(--r);padding:12px 20px;
+    font-family:"IBM Plex Mono",monospace;font-size:13.5px;border:none;}
+  .btn:hover{background:var(--signal);color:#fff;}
+  .contact{display:flex;gap:16px;flex-wrap:wrap;margin-top:20px;font-family:"IBM Plex Mono",monospace;font-size:14px;}
+  .fine{color:var(--muted);font-size:13px;margin-top:24px;}
+
+  .rise{opacity:0;transform:translateY(10px);animation:rise .55s cubic-bezier(.2,.7,.3,1) forwards;}
+  @keyframes rise{to{opacity:1;transform:none;}}
+  @media (prefers-reduced-motion:reduce){.rise{animation:none;opacity:1;transform:none;} .card{transition:none;} html{scroll-behavior:auto;}}
+  @media (max-width:760px){
+    .strip-row{grid-template-columns:1fr 1fr;}
+    .cellx{border-bottom:1px solid var(--rule);}
+    .grid2{grid-template-columns:1fr;}
+    nav{gap:14px;} .hero{padding:52px 0 40px;}
+  }
+
+  .cs{max-width:720px;margin:0 auto;padding:60px 24px 80px;}
+  .cs h1{font-family:"Space Grotesk",sans-serif;font-size:clamp(26px,4vw,38px);line-height:1.15;
+    letter-spacing:-.02em;margin:12px 0 20px;}
+  .cs h3{font-family:"Space Grotesk",sans-serif;font-size:19px;margin:36px 0 10px;}
+  .cs p{margin:0 0 16px;color:#3B2530;}
+  .back{font-family:"IBM Plex Mono",monospace;font-size:12.5px;}
+  .callout{background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--signal);
+    border-radius:var(--r);padding:18px 20px;margin:26px 0;}
+  .callout strong{font-family:"Space Grotesk",sans-serif;}
+  figure{margin:26px 0;}
+  figure img{width:100%;border:1px solid var(--rule);border-radius:var(--r);background:#fff;}
+  figcaption{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted);margin-top:8px;}
+</style>
+</head>
+<body>
+<div class="cs">
+  <a class="back" href="../index.html">&larr; Back to portfolio</a>
+
+  <span class="eyebrow">Case study &middot; Client work</span>
+  <h1>Production AI systems for banking, aviation and agriculture</h1>
+
+  <h3>The work</h3>
+  <p>
+    I build AI systems on AWS for an AWS partner company. Mostly two shapes: systems that search and reason
+    over a client's own documents, and agents that take actions rather than only answering questions. They go
+    out as infrastructure another engineer can pick up, not as notebooks.
+  </p>
+
+  <h3>How they're built</h3>
+  <p>
+    Bedrock for models, Lambda for compute, OpenSearch for retrieval, DynamoDB for state, FastAPI at the edge,
+    and Terraform for all of it. Nothing is clicked into existence in a console. If it isn't in code, it
+    doesn't exist, because the environment I hand over has to be the environment I tested.
+  </p>
+
+  <h3>The parts that actually take the time</h3>
+  <p>
+    Our model provider went down while a system was in production. The obvious fix was to switch to another
+    provider for a few hours. It turned out we couldn't, because the provider's client was called directly
+    from inside our business logic, in several places, with its response shape assumed throughout. Switching
+    was a three day refactor, not a config change, so we waited it out instead. I pulled the provider behind a
+    single interface afterwards: one method the rest of the system calls, one implementation per provider,
+    chosen at startup. The next time this happens it is one environment variable and a restart. That work is
+    also why the retry, timeout and fallback behaviour now lives in one place instead of being copied into
+    every call site.
+  </p>
+
+  <div class="callout">
+    <strong>Result:</strong> systems shipped into production for clients across three industries, delivered as
+    Terraform infrastructure with the documentation to run them.
+  </div>
+
+  <h3>What I'd tell you in an interview</h3>
+  <p>
+    That the interesting part of applied AI is almost never the model. On a side project the work stops when
+    the demo works. On client work it starts there: what happens when a dependency fails, whether the person
+    inheriting this can run it, how you find out a change made things worse before the client does. I'd rather
+    be judged on the boring layer than the clever one, because the boring layer is what's still standing in
+    six months.
+  </p>
+
+  <h3>A note on the code</h3>
+  <p>
+    This is client work and the source isn't public. Architecture and the decisions behind it are available on
+    request, and I'm glad to walk through any of it on a call.
+  </p>
+
+  <p style="margin-top:40px;"><a class="back" href="../index.html">&larr; Back to portfolio</a></p>
+</div>
+</body>
+</html>
